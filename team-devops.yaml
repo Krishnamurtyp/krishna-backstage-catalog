@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-devops
+  description: DevOps team responsible for managing infrastructure
+spec:
+  type: team
+  profile:
+    displayName: Team DevOps
+    email: devops@example.com  # Replace with your team's email
+  children: []  # If this team has sub-teams, list them here
