@@ -1,0 +1,65 @@
+app:
+  title: Backstage App
+  baseUrl: http://localhost:3000
+
+organization:
+  name: Krishna Backstage Training Organization
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+  auth:
+    externalAccess:
+      - type: "static"  # ✅ Added required type field
+        options:
+          token: "${BACKEND_SECRET}"  # ✅ Corrected structure
+          subject: "backstage"  # Add this field
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+  kubernetes:
+    serviceLocatorMethod:
+      type: "multiTenant"
+    clusterLocatorMethods:
+      - type: "config"
+        clusters:
+          - url: "https://127.0.0.1:53911"  # ✅ Minikube API Server URL
+            name: "minikube"
+            authProvider: "serviceAccount"
+            serviceAccountToken: "${K8S_SERVICE_ACCOUNT_TOKEN}"  # ✅ Read from env variable
+            skipTLSVerify: true
+
+integrations:
+  github:
+    - host: github.com
+      token: "${GITHUB_TOKEN}"  # ✅ Uses environment variable
+
+techdocs:
+  builder: local
+  generator:
+    runIn: docker
+  publisher:
+    type: local
+
+auth:
+  providers:
+    guest: {}
+
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow: [Component, System, API, Resource, Location]
+  locations:
+    - type: file
+      target: ./catalog-info.yaml
+
+permission:
+  enabled: true

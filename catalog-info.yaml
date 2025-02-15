@@ -4,11 +4,13 @@ metadata:
   name: krishna-backstage-app
   description: An example of a Backstage application with Kubernetes integration.
   annotations:
-    backstage.io/kubernetes-id: krishna-backstage-app  # Maps to the Kubernetes service
-    kubernetes.io/cluster-name: minikube  # Name of the Minikube cluster
-    backstage.io/kubernetes-namespace: default  # Namespace where the service is running
+    backstage.io/kubernetes-id: krishna-backstage-app  # Matches the Kubernetes deployment/service
+    kubernetes.io/cluster-name: minikube  # Ensure this matches your cluster name
+    backstage.io/kubernetes-namespace: default  # Ensure this is the correct namespace
+    backstage.io/techdocs-ref: dir:.  # Enable TechDocs
 spec:
-  type: website
-  owner: john@example.com
+  type: service
+  owner: team-devops  # Use a valid Backstage user or group
   lifecycle: experimental
+
 
